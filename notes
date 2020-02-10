@@ -18,15 +18,11 @@ file_name = datetime.now().strftime('%m-%d-%y') + ('.notes')
 file_path = notes_dir + file_name
 
 def write_note(text):
-  string = ''
-  for word in text:
-    string += word + ' '
-
-  text = string
+  text = " ".join(text)
 
   if not os.path.isdir(notes_dir):
     os.mkdir(notes_dir)
-  
+
   with open (file_path, 'a') as infile:
     text = text + '\n'
     infile.write(datetime.now().strftime('%H:%M:%S ') + text)

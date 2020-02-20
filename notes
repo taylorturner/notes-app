@@ -14,9 +14,10 @@ args = parser.parse_args()
 
 # configuration
 notes_dir = '/Users/taylorturner/Documents/Notes/'
-file_name = datetime.now().strftime('%m-%d-%y') + ('.notes')
+file_name = datetime.now().strftime('%Y') + ('.notes')
 file_path = notes_dir + file_name
 
+# Writes text to a file, if file doesn't exist it creates one
 def write_note(text):
   text = " ".join(text)
 
@@ -25,16 +26,18 @@ def write_note(text):
 
   with open (file_path, 'a') as infile:
     text = text + '\n'
-    infile.write(datetime.now().strftime('%H:%M:%S ') + text)
+    infile.write(datetime.now().strftime('%m-%d|%H:%M:%S') + ' ' + text)
 
-def read_todays_notes():
+# Reads most recent notes text file
+def read_notes():
   if os.path.exists(file_path):
     with open(file_path, 'r') as infile:
-      for line in infile:
-        print(line)
+      content = infile.read()
+      print(content)
   else:
-    print("It appears there are no notes from today, see help for more options")
+    print("Unfortunately, there are no notes to read. Have you started one? Please see help for more options")
 
+# Will be irrelevant, should be replaced with a parser
 def browse_notes(date):
   if datetime.strptime(date, '%m-%d-%y'):
     print(f"Looking up note that matches date '{date}'...")
@@ -51,6 +54,7 @@ def browse_notes(date):
         for line in infile:
           print(line)
 
+# TODO Should print full paths
 def list_notes():
   try:
     file_list = os.listdir(notes_dir)
@@ -67,7 +71,7 @@ def delete_line():
 
 def main():
   if args.read:
-    read_todays_notes()
+    read_notes()
   elif args.browse:
     browse_notes(args.browse)
   elif args.list:
